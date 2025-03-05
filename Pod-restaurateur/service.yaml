@@ -1,0 +1,15 @@
+##V1 OPERATIONNEL
+apiVersion: v1
+kind: Service
+metadata:
+  name: restaurateur-api-service
+spec:
+  selector:
+    app: pod-restaurateur
+  ports:
+    - protocol: TCP
+      port: 3000
+      targetPort: 3000
+  type: NodePort
+
+

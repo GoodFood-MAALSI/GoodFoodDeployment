@@ -1,0 +1,62 @@
+# V2 AVEC FRONTEND NEXT.JS OPÉRATIONNEL
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-restaurateur
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod-restaurateur
+  template:
+    metadata:
+      labels:
+        app: pod-restaurateur
+    spec:
+      containers:
+        - name: postgres-container
+          image: postgres:15
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_USER
+              value: postgres
+            - name: POSTGRES_PASSWORD
+              value: postgres
+            - name: POSTGRES_DB
+              value: restaurants_db
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-storage
+
+        - name: restaurateur-api-container
+          image: antoinecvlz/goodfood-restaurateur-api:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          env:
+            - name: DB_HOST
+              value: 127.0.0.1
+            - name: DB_PORT
+              value: '5432'
+            - name: DB_USERNAME
+              value: postgres
+            - name: DB_PASSWORD
+              value: postgres
+            - name: DB_NAME
+              value: restaurants_db
+
+        - name: restaurateur-web-container
+          image: antoinecvlz/goodfood-restaurateur-web:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3001
+          env:
+            - name: NEXT_PUBLIC_API_URL
+              value: "http://127.0.0.1:3000"
+
+      volumes:
+        - name: postgres-storage
+          persistentVolumeClaim:
+            claimName: postgres-pvc
