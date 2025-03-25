@@ -1,0 +1,52 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: traefik-role
+rules:
+  # ➡️ Permettre à Traefik de lire les services/endpoints/secrets
+  - apiGroups: [""]
+    resources:
+      - services
+      - endpoints
+      - secrets
+    verbs:
+      - get
+      - list
+      - watch
+
+  # ➡️ Permettre à Traefik de lire/écrire les ressources CRD spécifiques
+  - apiGroups: ["traefik.io"]
+    resources:
+      - middlewares
+      - ingressroutes
+      - ingressroutetcps
+      - ingressrouteudps
+      - traefikservices
+      - tlsstores
+      - tlsoptions
+      - serverstransports
+      - middlewaretcps
+      - serverstransporttcps
+    verbs:
+      - get
+      - list
+      - watch
+      - create
+      - update
+      - delete
+
+---
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: traefik-role-binding
+subjects:
+  - kind: ServiceAccount
+    name: traefik-serviceaccount
+    namespace: traefik
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: traefik-role
+

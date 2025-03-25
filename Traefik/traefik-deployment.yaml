@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: traefik
+  namespace: traefik
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: traefik
+  template:
+    metadata:
+      labels:
+        app: traefik
+    spec:
+      serviceAccountName: traefik-serviceaccount
+      containers:
+        - name: traefik
+          image: traefik:v3.0
+          args:
+            - "--api.insecure=true"
+            - "--api.dashboard=true"
+            - "--providers.kubernetescrd"
+            - "--providers.kubernetescrd.allowCrossNamespace=true"
+            - "--entrypoints.web.address=:80"
+            - "--entrypoints.traefik.address=:8080"
+            - "--serverstransport.insecureskipverify=true"
+          ports:
+            - name: web
+              containerPort: 80
+            - name: admin
+              containerPort: 8080
+          securityContext:
+            capabilities:
+              drop: [ALL]
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65532

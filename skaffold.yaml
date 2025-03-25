@@ -1,0 +1,41 @@
+apiVersion: skaffold/v4beta6
+kind: Config
+metadata:
+  name: goodfood
+build:
+  artifacts:
+    - image: goodfoodrestaurateur
+      context: ../GoodFoodRestaurateur
+      sync:
+        manual:
+          - src: "src/**/*.{js,ts}"
+            dest: .
+      docker:
+        target: dev
+    - image: goodfoodwebrestaurateur
+      context: ../GoodFoodWebRestaurateur/goodfoodwebrestaurateur
+      sync:
+        manual:
+          - src: "app/**/*.{js,ts,jsx,tsx}"
+            dest: .
+          - src: "public/**/*"
+            dest: .
+      docker:
+        target: dev
+  local:
+    push: false
+deploy:
+  kubectl: {}
+portForward:
+  - resourceType: service
+    resourceName: traefik
+    namespace: traefik
+    port: 80
+    localPort: 8080
+profiles:
+  - name: restaurateur
+    manifests:
+      kustomize:
+        paths:
+          - ./Traefik
+          - ./Pod-restaurateur

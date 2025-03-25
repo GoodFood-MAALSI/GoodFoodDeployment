@@ -1,4 +1,3 @@
-# V2 AVEC FRONTEND NEXT.JS OPÉRATIONNEL
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -14,47 +13,67 @@ spec:
         app: pod-restaurateur
     spec:
       containers:
-        - name: postgres-container
+        - name: restaurateur-db-container
           image: postgres:15
           imagePullPolicy: Always
           ports:
-            - containerPort: 5432
+            - containerPort: 5434
           env:
             - name: POSTGRES_USER
-              value: postgres
+              value: "root"
             - name: POSTGRES_PASSWORD
-              value: postgres
+              value: "root"
             - name: POSTGRES_DB
-              value: restaurants_db
+              value: "postgres"
+            - name: PGPORT
+              value: "5434"
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: postgres-storage
 
         - name: restaurateur-api-container
-          image: antoinecvlz/goodfood-restaurateur-api:latest
-          imagePullPolicy: Always
+          image: goodfoodrestaurateur  # Image gérée par Skaffold
+          imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 3000
+            - containerPort: 3002
           env:
+            - name: NODE_ENV
+              value: "development"
             - name: DB_HOST
-              value: 127.0.0.1
+              value: "localhost"
             - name: DB_PORT
-              value: '5432'
+              value: "5434"
             - name: DB_USERNAME
-              value: postgres
+              value: "root"
             - name: DB_PASSWORD
-              value: postgres
+              value: "root"
             - name: DB_NAME
-              value: restaurants_db
+              value: "postgres"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
 
         - name: restaurateur-web-container
-          image: antoinecvlz/goodfood-restaurateur-web:latest
-          imagePullPolicy: Always
+          image: goodfoodwebrestaurateur  # Image gérée par Skaffold
+          imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 3001
+            - containerPort: 4002
           env:
+            - name: NODE_ENV
+              value: "development"
             - name: NEXT_PUBLIC_API_URL
-              value: "http://127.0.0.1:3000"
+              value: "http://localhost:8080/restaurant/api"
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "512Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1024Mi"
 
       volumes:
         - name: postgres-storage

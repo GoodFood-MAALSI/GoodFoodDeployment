@@ -1,15 +1,21 @@
-##V1 OPERATIONNEL
 apiVersion: v1
 kind: Service
 metadata:
-  name: restaurateur-api-service
+  name: restaurateur-service
 spec:
   selector:
     app: pod-restaurateur
   ports:
-    - protocol: TCP
-      port: 3000
-      targetPort: 3000
-  type: NodePort
-
-
+    - name: db-port
+      protocol: TCP
+      port: 5434  # PostgreSQL (peut être utilisé pour des connexions externes)
+      targetPort: 5434
+    - name: api-port
+      protocol: TCP
+      port: 3002
+      targetPort: 3002
+    - name: web-port
+      protocol: TCP
+      port: 4002
+      targetPort: 4002
+  type: ClusterIP  # Traefik gère le routage
