@@ -104,12 +104,28 @@ Skaffold is a command-line tool that automates the workflow for building, deploy
 - **Windows**:
     ```bash
     cd /GoodFood/subrepos/GoodFoodDeployment
+- To deploy all pods:
+    ```bash
     .\start.cmd
+- To deploy specific pod:
+    ```bash
+    .\start.cmd restaurateur
+- To deploy multiple pods:
+    ```bash
+    .\start.cmd restaurateur livreur
 
 - **Linux**:
     ```bash
     cd /GoodFood/subrepos/GoodFoodDeployment
+- To deploy all pods:
+    ```bash
     .\start.sh
+- To deploy specific pod:
+    ```bash
+    .\start.sh restaurateur
+- To deploy multiple pods:
+    ```bash
+    .\start.sh restaurateur livreur
 
 ---
 
