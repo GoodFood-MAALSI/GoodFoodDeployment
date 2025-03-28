@@ -49,6 +49,8 @@ spec:
               value: "root"
             - name: DB_NAME
               value: "postgres"
+            - name: URL
+              value: "http://localhost:8080/restaurateur/api"
           resources:
             requests:
               cpu: "100m"
