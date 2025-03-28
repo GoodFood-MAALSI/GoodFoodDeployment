@@ -7,8 +7,8 @@ spec:
   entryPoints:
     - web
   routes:
-    # Route pour l'API (/restaurant/api/...)
-    - match: Host(`localhost`) && PathPrefix(`/restaurant/api`)
+    # Route pour l'API (/restaurateur/api/...)
+    - match: Host(`localhost`) && PathPrefix(`/restaurateur/api`)
       kind: Rule
       priority: 12
       services:
@@ -16,50 +16,25 @@ spec:
           namespace: default
           port: 3002
       middlewares:
-        - name: strip-restaurant-api-prefix
+        - name: strip-restaurateur-api-prefix
           namespace: default
 
-     # Route pour les fichiers statiques de Next.js (/_next/...)
-    - match: Host(`localhost`) && PathPrefix(`/_next`)
-      kind: Rule
-      priority: 15
-      services:
-        - name: restaurateur-service
-          namespace: default
-          port: 4002
-      middlewares: []
-
-    # Route pour les autres chemins de l'application Next.js (avec suppression du préfixe /restaurant)
-    - match: Host(`localhost`) && PathPrefix(`/restaurant`)
+    # Route pour les autres chemins de l'application Next.js
+    - match: Host(`localhost`) && PathPrefix(`/restaurateur`)
       kind: Rule
       priority: 10
       services:
         - name: restaurateur-service
           namespace: default
           port: 4002
-      middlewares:
-        - name: strip-restaurant-prefix
-          namespace: default
-
 
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
-  name: strip-restaurant-prefix
+  name: strip-restaurateur-api-prefix
   namespace: default
 spec:
   stripPrefix:
     prefixes:
-      - /restaurant
-
----
-apiVersion: traefik.io/v1alpha1
-kind: Middleware
-metadata:
-  name: strip-restaurant-api-prefix
-  namespace: default
-spec:
-  stripPrefix:
-    prefixes:
-      - /restaurant/api
+      - /restaurateur/api

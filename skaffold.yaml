@@ -13,7 +13,7 @@ build:
       docker:
         target: dev
     - image: goodfoodwebrestaurateur
-      context: ../GoodFoodWebRestaurateur/goodfoodwebrestaurateur
+      context: ../GoodFoodWebRestaurateur
       sync:
         manual:
           - src: "app/**/*.{js,ts,jsx,tsx}"
