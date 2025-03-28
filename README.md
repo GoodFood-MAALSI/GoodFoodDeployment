@@ -122,10 +122,10 @@ Skaffold is a command-line tool that automates the workflow for building, deploy
     .\start.sh
 - To deploy specific pod:
     ```bash
-    .\start.sh restaurateur
+    .\start.sh "restaurateur"
 - To deploy multiple pods:
     ```bash
-    .\start.sh restaurateur livreur
+    .\start.sh "restaurateur,livreur"
 
 ---
 
@@ -134,9 +134,9 @@ Skaffold is a command-line tool that automates the workflow for building, deploy
 Once the application is running, you can access the following endpoints in your browser:
 
 - [http://localhost:8080/dashboard/](http://localhost:8080/dashboard/)
-- [http://localhost:8080/restaurant/](http://localhost:8080/restaurant/)
-- [http://localhost:8080/restaurant/api](http://localhost:8080/restaurant/api)
-- [http://localhost:8080/restaurant/api/swagger](http://localhost:8080/restaurant/api/swagger)
+- [http://localhost:8080/restaurateur/](http://localhost:8080/restaurateur/)
+- [http://localhost:8080/restaurateur/api](http://localhost:8080/restaurateur/api)
+- [http://localhost:8080/restaurateur/api/swagger](http://localhost:8080/restaurateur/api/swagger)
 
 ---
 
