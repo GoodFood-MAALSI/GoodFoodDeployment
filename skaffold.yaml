@@ -4,6 +4,7 @@ metadata:
   name: goodfood
 build:
   artifacts:
+    #Restaurateur
     - image: goodfoodrestaurateur
       context: ../GoodFoodRestaurateur
       sync:
@@ -19,6 +20,16 @@ build:
           - src: "app/**/*.{js,ts,jsx,tsx}"
             dest: .
           - src: "public/**/*"
+            dest: .
+      docker:
+        target: dev
+
+    #Client
+    - image: goodfoodclient
+      context: ../GoodFoodClient
+      sync:
+        manual:
+          - src: "src/**/*.{js,ts}"
             dest: .
       docker:
         target: dev
@@ -39,3 +50,9 @@ profiles:
         paths:
           - ./Traefik
           - ./Pod-restaurateur
+  - name: client
+    manifests:
+      kustomize:
+        paths:
+          - ./Traefik
+          - ./Pod-client
