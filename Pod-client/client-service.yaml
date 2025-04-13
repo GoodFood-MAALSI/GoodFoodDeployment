@@ -2,13 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: client-service
+  namespace: client
 spec:
   selector:
     app: pod-client
   ports:
     - name: db-port
       protocol: TCP
-      port: 5433  # PostgreSQL (peut être utilisé pour des connexions externes)
+      port: 5433
       targetPort: 5433
     - name: api-port
       protocol: TCP

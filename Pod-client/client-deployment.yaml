@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-client
+  namespace: client
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod-client
+  template:
+    metadata:
+      labels:
+        app: pod-client
+    spec:
+      containers:
+        - name: client-db-container
+          image: postgres:15
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5433
+          env:
+            - name: POSTGRES_USER
+              value: "user"
+            - name: POSTGRES_PASSWORD
+              value: "3NvlIk8172Vc<h`;#yP{"
+            - name: POSTGRES_DB
+              value: "goodfood_client"
+            - name: PGPORT
+              value: "5433"
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: client-storage
+
+        - name: client-api-container
+          image: goodfoodclient
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3001
+          env:
+            - name: NODE_ENV
+              value: "development"
+            - name: APP_PORT
+              value: "3001"
+            - name: APP_NAME
+              value: "NestJS API"
+            - name: API_PREFIX
+              value: ""
+            - name: FRONTEND_DOMAIN
+              value: "http://localhost:3000"
+            - name: BACKEND_DOMAIN
+              value: "http://localhost:8080/client/api"
+            - name: URL
+              value: "http://localhost:8080/client/api"
+            - name: DATABASE_TYPE
+              value: "postgres"
+            - name: DATABASE_HOST
+              value: "127.0.0.1"
+            - name: DATABASE_PORT
+              value: "5433"
+            - name: DATABASE_USERNAME
+              value: "user"
+            - name: DATABASE_PASSWORD
+              value: "3NvlIk8172Vc<h`;#yP{"
+            - name: DATABASE_NAME
+              value: "goodfood_client"
+            - name: DATABASE_SYNCHRONIZE
+              value: "true"
+            - name: DATABASE_URL
+              value: "postgres://user:root@127.0.0.1:5433/goodfood_client"
+            - name: AUTH_JWT_SECRET
+              value: "3v8g7h6J9LkM0pQ2XrTzWmYbNcDfGqRt"
+            - name: AUTH_JWT_TOKEN_EXPIRES_IN
+              value: "1h"
+            - name: AUTH_REFRESH_SECRET
+              value: "A9B8C7D6E5F4G3H2I1J0KLMNOPQRSTU"
+            - name: AUTH_REFRESH_TOKEN_EXPIRES_IN
+              value: "10h"
+            - name: MAILER_HOST
+              value: "smtp.gmail.com"
+            - name: MAILER_PORT
+              value: "587"
+            - name: MAILER_USER
+              value: "goodfood.maalsi@gmail.com"
+            - name: MAILER_PASSWORD
+              value: "rwpe gfjy gwmj btyt"
+            - name: MAILER_IGNORE_TLS
+              value: "false"
+            - name: MAILER_SECURE
+              value: "false"
+            - name: MAILER_REQUIRE_TLS
+              value: "true"
+            - name: MAILER_DEFAULT_EMAIL
+              value: "goodfood.maalsi@gmail.com"
+            - name: MAILER_DEFAULT_NAME
+              value: "Goodfood"
+            - name: MAILER_CLIENT_PORT
+              value: "1080"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+      volumes:
+        - name: client-storage
+          persistentVolumeClaim:
+            claimName: client-pvc

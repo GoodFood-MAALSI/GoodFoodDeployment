@@ -2,6 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: pod-restaurateur
+  namespace: restaurateur
 spec:
   replicas: 1
   selector:
@@ -20,19 +21,19 @@ spec:
             - containerPort: 5434
           env:
             - name: POSTGRES_USER
-              value: "root"
+              value: "user"
             - name: POSTGRES_PASSWORD
-              value: "root"
+              value: "3NvlIk8172Vc<h`;#yP{"
             - name: POSTGRES_DB
-              value: "postgres"
+              value: "goodfood_restaurateur"
             - name: PGPORT
               value: "5434"
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: postgres-storage
+              name: restaurateur-storage
 
         - name: restaurateur-api-container
-          image: goodfoodrestaurateur  # Image gérée par Skaffold
+          image: goodfoodrestaurateur
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3002
@@ -44,11 +45,11 @@ spec:
             - name: DB_PORT
               value: "5434"
             - name: DB_USERNAME
-              value: "root"
+              value: "user"
             - name: DB_PASSWORD
-              value: "root"
+              value: "3NvlIk8172Vc<h`;#yP{"
             - name: DB_NAME
-              value: "postgres"
+              value: "goodfood_restaurateur"
             - name: URL
               value: "http://localhost:8080/restaurateur/api"
           resources:
@@ -60,7 +61,7 @@ spec:
               memory: "512Mi"
 
         - name: restaurateur-web-container
-          image: goodfoodwebrestaurateur  # Image gérée par Skaffold
+          image: goodfoodwebrestaurateur
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 4002
@@ -80,6 +81,6 @@ spec:
               memory: "1024Mi"
 
       volumes:
-        - name: postgres-storage
+        - name: restaurateur-storage
           persistentVolumeClaim:
-            claimName: postgres-pvc
+            claimName: restaurateur-pvc

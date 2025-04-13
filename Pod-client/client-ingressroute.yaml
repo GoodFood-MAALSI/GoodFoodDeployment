@@ -2,7 +2,7 @@ apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
   name: client-ingress
-  namespace: default
+  namespace: client
 spec:
   entryPoints:
     - web
@@ -13,18 +13,18 @@ spec:
       priority: 12
       services:
         - name: client-service
-          namespace: default
+          namespace: client
           port: 3001
       middlewares:
         - name: strip-client-api-prefix
-          namespace: default
+          namespace: client
 
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: strip-client-api-prefix
-  namespace: default
+  namespace: client
 spec:
   stripPrefix:
     prefixes:

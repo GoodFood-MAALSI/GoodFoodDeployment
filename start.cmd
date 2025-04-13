@@ -16,7 +16,7 @@ kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v3.0/docs/con
 :: Vérifier si un paramètre est fourni
 if "%1"=="" (
   echo No pod specified. Defaulting to deploying all pods...
-  set PROFILES=restaurateur
+  set PROFILES=all
 ) else (
   set PROFILES=%1
 )

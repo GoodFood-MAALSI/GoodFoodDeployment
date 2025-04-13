@@ -16,12 +16,11 @@ kubectl apply -f https://raw.githubusercontent.com/traefik/traefik/v3.0/docs/con
 # Vérifier si un paramètre est fourni
 if [ -z "$1" ]; then
   echo "No pod specified. Defaulting to deploying all pods..."
-  PROFILES="restaurateur"
+  PROFILES="all"
 else
   PROFILES="$1"
 fi
 
 # Lancer Skaffold avec les profils
-
 echo "Starting Skaffold for profiles: $PROFILES..."
 skaffold dev -p "$PROFILES"

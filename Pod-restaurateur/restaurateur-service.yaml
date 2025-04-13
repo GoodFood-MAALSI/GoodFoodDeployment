@@ -2,13 +2,14 @@ apiVersion: v1
 kind: Service
 metadata:
   name: restaurateur-service
+  namespace: restaurateur
 spec:
   selector:
     app: pod-restaurateur
   ports:
     - name: db-port
       protocol: TCP
-      port: 5434  # PostgreSQL (peut être utilisé pour des connexions externes)
+      port: 5434
       targetPort: 5434
     - name: api-port
       protocol: TCP

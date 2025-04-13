@@ -3,36 +3,6 @@ kind: Config
 metadata:
   name: goodfood
 build:
-  artifacts:
-    #Restaurateur
-    - image: goodfoodrestaurateur
-      context: ../GoodFoodRestaurateur
-      sync:
-        manual:
-          - src: "src/**/*.{js,ts}"
-            dest: .
-      docker:
-        target: dev
-    - image: goodfoodwebrestaurateur
-      context: ../GoodFoodWebRestaurateur
-      sync:
-        manual:
-          - src: "app/**/*.{js,ts,jsx,tsx}"
-            dest: .
-          - src: "public/**/*"
-            dest: .
-      docker:
-        target: dev
-
-    #Client
-    - image: goodfoodclient
-      context: ../GoodFoodClient
-      sync:
-        manual:
-          - src: "src/**/*.{js,ts}"
-            dest: .
-      docker:
-        target: dev
   local:
     push: false
 deploy:
@@ -45,14 +15,119 @@ portForward:
     localPort: 8080
 profiles:
   - name: restaurateur
+    build:
+      artifacts:
+        - image: goodfoodrestaurateur
+          context: ../GoodFoodRestaurateur
+          sync:
+            manual:
+              - src: "src/**/*.{js,ts}"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
+        - image: goodfoodwebrestaurateur
+          context: ../GoodFoodWebRestaurateur
+          sync:
+            manual:
+              - src: "app/**/*.{js,ts,jsx,tsx}"
+                dest: .
+              - src: "public/**/*"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "next.config.{js,mjs}"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
     manifests:
       kustomize:
         paths:
           - ./Traefik
           - ./Pod-restaurateur
   - name: client
+    build:
+      artifacts:
+        - image: goodfoodclient
+          context: ../GoodFoodClient
+          sync:
+            manual:
+              - src: "src/**/*.{js,ts}"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
     manifests:
       kustomize:
         paths:
           - ./Traefik
+          - ./Pod-client
+  - name: all
+    build:
+      artifacts:
+        - image: goodfoodrestaurateur
+          context: ../GoodFoodRestaurateur
+          sync:
+            manual:
+              - src: "src/**/*.{js,ts}"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
+        - image: goodfoodwebrestaurateur
+          context: ../GoodFoodWebRestaurateur
+          sync:
+            manual:
+              - src: "app/**/*.{js,ts,jsx,tsx}"
+                dest: .
+              - src: "public/**/*"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "next.config.{js,mjs}"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
+        - image: goodfoodclient
+          context: ../GoodFoodClient
+          sync:
+            manual:
+              - src: "src/**/*.{js,ts}"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
+    manifests:
+      kustomize:
+        paths:
+          - ./Traefik
+          - ./Pod-restaurateur
           - ./Pod-client
