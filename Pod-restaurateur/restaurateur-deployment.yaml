@@ -23,7 +23,7 @@ spec:
             - name: POSTGRES_USER
               value: "user"
             - name: POSTGRES_PASSWORD
-              value: "3NvlIk8172Vc<h`;#yP{"
+              value: "3NvlIk8172Vc<h`:fd"
             - name: POSTGRES_DB
               value: "goodfood_restaurateur"
             - name: PGPORT
@@ -47,7 +47,7 @@ spec:
             - name: DB_USERNAME
               value: "user"
             - name: DB_PASSWORD
-              value: "3NvlIk8172Vc<h`;#yP{"
+              value: "3NvlIk8172Vc<h`:fd"
             - name: DB_NAME
               value: "goodfood_restaurateur"
             - name: URL

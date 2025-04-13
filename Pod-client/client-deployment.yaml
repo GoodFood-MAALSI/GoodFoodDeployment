@@ -23,7 +23,7 @@ spec:
             - name: POSTGRES_USER
               value: "user"
             - name: POSTGRES_PASSWORD
-              value: "3NvlIk8172Vc<h`;#yP{"
+              value: "3NvlIk8172Vc<h`:fd"
             - name: POSTGRES_DB
               value: "goodfood_client"
             - name: PGPORT
@@ -44,10 +44,8 @@ spec:
               value: "3001"
             - name: APP_NAME
               value: "NestJS API"
-            - name: API_PREFIX
-              value: ""
             - name: FRONTEND_DOMAIN
-              value: "http://localhost:3000"
+              value: ""
             - name: BACKEND_DOMAIN
               value: "http://localhost:8080/client/api"
             - name: URL
@@ -61,13 +59,13 @@ spec:
             - name: DATABASE_USERNAME
               value: "user"
             - name: DATABASE_PASSWORD
-              value: "3NvlIk8172Vc<h`;#yP{"
+              value: "3NvlIk8172Vc<h`:fd"
             - name: DATABASE_NAME
               value: "goodfood_client"
             - name: DATABASE_SYNCHRONIZE
               value: "true"
             - name: DATABASE_URL
-              value: "postgres://user:root@127.0.0.1:5433/goodfood_client"
+              value: "postgres://user:33NvlIk8172Vc<h`:fd@127.0.0.1:5433/goodfood_client"
             - name: AUTH_JWT_SECRET
               value: "3v8g7h6J9LkM0pQ2XrTzWmYbNcDfGqRt"
             - name: AUTH_JWT_TOKEN_EXPIRES_IN
