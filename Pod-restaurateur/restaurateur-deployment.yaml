@@ -23,7 +23,7 @@ spec:
             - name: POSTGRES_USER
               value: "user"
             - name: POSTGRES_PASSWORD
-              value: "3NvlIk8172Vc<h`:fd"
+              value: "86oQya`HI+WY455DrR"
             - name: POSTGRES_DB
               value: "goodfood_restaurateur"
             - name: PGPORT
@@ -40,18 +40,56 @@ spec:
           env:
             - name: NODE_ENV
               value: "development"
-            - name: DB_HOST
-              value: "127.0.0.1"
-            - name: DB_PORT
-              value: "5434"
-            - name: DB_USERNAME
-              value: "user"
-            - name: DB_PASSWORD
-              value: "3NvlIk8172Vc<h`:fd"
-            - name: DB_NAME
-              value: "goodfood_restaurateur"
-            - name: URL
+            - name: APP_PORT
+              value: "3002"
+            - name: FRONTEND_DOMAIN
+              value: "http://localhost:8080/restaurateur/"
+            - name: BACKEND_DOMAIN
               value: "http://localhost:8080/restaurateur/api"
+            - name: DATABASE_TYPE
+              value: "postgres"
+            - name: DATABASE_HOST
+              value: "127.0.0.1"
+            - name: DATABASE_PORT
+              value: "5434"
+            - name: DATABASE_USERNAME
+              value: "user"
+            - name: DATABASE_PASSWORD
+              value: "86oQya`HI+WY455DrR"
+            - name: DATABASE_NAME
+              value: "goodfood_restaurateur"
+            - name: DATABASE_SYNCHRONIZE
+              value: "true"
+            - name: DATABASE_URL
+              value: "postgres://user:386oQya`HI+WY455DrR@127.0.0.1:5434/goodfood_restaurateur"
+            - name: AUTH_JWT_SECRET
+              value: "3v8g7h6J9LkM0pQ2XrTzWmYbNcDfGqRt"
+            - name: AUTH_JWT_TOKEN_EXPIRES_IN
+              value: "1h"
+            - name: AUTH_REFRESH_SECRET
+              value: "A9B8C7D6E5F4G3H2I1J0KLMNOPQRSTU"
+            - name: AUTH_REFRESH_TOKEN_EXPIRES_IN
+              value: "10h"
+            - name: MAILER_HOST
+              value: "smtp.gmail.com"
+            - name: MAILER_PORT
+              value: "587"
+            - name: MAILER_USER
+              value: "goodfood.maalsi@gmail.com"
+            - name: MAILER_PASSWORD
+              value: "rwpe gfjy gwmj btyt"
+            - name: MAILER_IGNORE_TLS
+              value: "false"
+            - name: MAILER_SECURE
+              value: "false"
+            - name: MAILER_REQUIRE_TLS
+              value: "true"
+            - name: MAILER_DEFAULT_EMAIL
+              value: "goodfood.maalsi@gmail.com"
+            - name: MAILER_DEFAULT_NAME
+              value: "Goodfood"
+            - name: MAILER_CLIENT_PORT
+              value: "1080"
           resources:
             requests:
               cpu: "100m"

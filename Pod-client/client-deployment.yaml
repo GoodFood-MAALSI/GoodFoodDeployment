@@ -42,13 +42,9 @@ spec:
               value: "development"
             - name: APP_PORT
               value: "3001"
-            - name: APP_NAME
-              value: "NestJS API"
             - name: FRONTEND_DOMAIN
-              value: ""
+              value: "goodfoodclient://"
             - name: BACKEND_DOMAIN
-              value: "http://localhost:8080/client/api"
-            - name: URL
               value: "http://localhost:8080/client/api"
             - name: DATABASE_TYPE
               value: "postgres"
