@@ -13,7 +13,36 @@ portForward:
     namespace: traefik
     port: 80
     localPort: 8080
+  - resourceType: service
+    resourceName: kafka-ui-service
+    namespace: kafka
+    port: 8080
+    localPort: 8081
 profiles:
+  # Profil pour créer les namespaces
+  - name: namespace
+    manifests:
+      kustomize:
+        paths:
+          - ./Kafka/namespace
+          - ./Traefik/namespace  # Ajout du namespace Traefik
+
+  # Profil pour les CRDs et RBAC (Kafka et Traefik)
+  - name: crds
+    manifests:
+      kustomize:
+        paths:
+          - ./Traefik/crds
+          - ./Kafka/crds
+
+  # Profil pour déployer uniquement Kafka et ses dépendances
+  - name: kafka
+    manifests:
+      kustomize:
+        paths:
+          - ./Kafka/resources
+
+  # Profil pour l'application restaurateur
   - name: restaurateur
     build:
       artifacts:
@@ -52,8 +81,10 @@ profiles:
     manifests:
       kustomize:
         paths:
-          - ./Traefik
+          - ./Traefik/resources  # Traefik est requis pour l'accès réseau
           - ./Pod-restaurateur
+
+  # Profil pour l'application client
   - name: client
     build:
       artifacts:
@@ -74,8 +105,73 @@ profiles:
     manifests:
       kustomize:
         paths:
-          - ./Traefik
+          - ./Traefik/resources  # Traefik est requis pour l'accès réseau
           - ./Pod-client
+
+  # Profil pour l'application order
+  - name: order
+    build:
+      artifacts:
+        - image: goodfoodorder
+          context: ../GoodFoodOrder
+          sync:
+            manual:
+              - src: "src/**/*.{js,ts}"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
+    manifests:
+      kustomize:
+        paths:
+          - ./Traefik/resources  # Traefik est requis pour l'accès réseau
+          - ./Pod-order
+
+  # Profil pour l'application client et order
+  - name: client-order
+    build:
+      artifacts:
+        - image: goodfoodclient
+          context: ../GoodFoodClient
+          sync:
+            manual:
+              - src: "src/**/*.{js,ts}"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
+        - image: goodfoodorder
+          context: ../GoodFoodOrder
+          sync:
+            manual:
+              - src: "src/**/*.{js,ts}"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
+    manifests:
+      kustomize:
+        paths:
+          - ./Traefik/resources  # Traefik est requis pour l'accès réseau
+          - ./Pod-client
+          - ./Pod-order
+
+  # Profil "all" pour tout déployer (infrastructure + apps)
   - name: all
     build:
       artifacts:
@@ -125,9 +221,25 @@ profiles:
                 dest: .
           docker:
             target: dev
+        - image: goodfoodorder
+          context: ../GoodFoodOrder
+          sync:
+            manual:
+              - src: "src/**/*.{js,ts}"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
     manifests:
       kustomize:
         paths:
-          - ./Traefik
+          - ./Kafka/resources
+          - ./Traefik/resources
           - ./Pod-restaurateur
           - ./Pod-client
+          - ./Pod-order

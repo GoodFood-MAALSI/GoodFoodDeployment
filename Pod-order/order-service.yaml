@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: order-service
+  namespace: order
+spec:
+  selector:
+    app: pod-order
+  ports:
+    - name: db-port
+      protocol: TCP
+      port: 5437
+      targetPort: 5437
+    - name: api-port
+      protocol: TCP
+      port: 3005
+      targetPort: 3005
+  type: ClusterIP  # Traefik gère le routage

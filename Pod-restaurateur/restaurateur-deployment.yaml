@@ -90,6 +90,8 @@ spec:
               value: "Goodfood"
             - name: MAILER_CLIENT_PORT
               value: "1080"
+            - name: KAFKAJS_NO_PARTITIONER_WARNING
+              value: "1"
           resources:
             requests:
               cpu: "100m"

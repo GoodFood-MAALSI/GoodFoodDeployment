@@ -1,67 +1,65 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: pod-client
-  namespace: client
+  name: pod-order
+  namespace: order
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: pod-client
+      app: pod-order
   template:
     metadata:
       labels:
-        app: pod-client
+        app: pod-order
     spec:
       containers:
-        - name: client-db-container
+        - name: order-db-container
           image: postgres:15
           imagePullPolicy: Always
           ports:
-            - containerPort: 5433
+            - containerPort: 5437
           env:
             - name: POSTGRES_USER
               value: "user"
             - name: POSTGRES_PASSWORD
-              value: "3NvlIk8172Vc<h`:fd"
+              value: "k?:u-Nu4&FM68Q!1Ez"
             - name: POSTGRES_DB
-              value: "goodfood_client"
+              value: "goodfood_order"
             - name: PGPORT
-              value: "5433"
+              value: "5437"
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
-              name: client-storage
+              name: order-storage
 
-        - name: client-api-container
-          image: goodfoodclient
+        - name: order-api-container
+          image: goodfoodorder
           imagePullPolicy: IfNotPresent
           ports:
-            - containerPort: 3001
+            - containerPort: 3005
           env:
             - name: NODE_ENV
               value: "development"
             - name: APP_PORT
-              value: "3001"
-            - name: FRONTEND_DOMAIN
-              value: "goodfoodclient://"
+              value: "3005"
             - name: BACKEND_DOMAIN
-              value: "http://localhost:8080/client/api"
+              value: "http://localhost:8080/order/api"
             - name: DATABASE_TYPE
               value: "postgres"
             - name: DATABASE_HOST
               value: "127.0.0.1"
             - name: DATABASE_PORT
-              value: "5433"
+              value: "5437"
             - name: DATABASE_USERNAME
               value: "user"
             - name: DATABASE_PASSWORD
-              value: "3NvlIk8172Vc<h`:fd"
+              value: "k?:u-Nu4&FM68Q!1Ez"
             - name: DATABASE_NAME
-              value: "goodfood_client"
+              value: "goodfood_order"
             - name: DATABASE_SYNCHRONIZE
               value: "true"
             - name: DATABASE_URL
-              value: "postgres://user:33NvlIk8172Vc<h`:fd@127.0.0.1:5433/goodfood_client"
+              value: "postgres://user:k?:u-Nu4&FM68Q!1Ez@127.0.0.1:5437/goodfood_order"
             - name: AUTH_JWT_SECRET
               value: "3v8g7h6J9LkM0pQ2XrTzWmYbNcDfGqRt"
             - name: AUTH_JWT_TOKEN_EXPIRES_IN
@@ -100,6 +98,6 @@ spec:
               cpu: "500m"
               memory: "512Mi"
       volumes:
-        - name: client-storage
+        - name: order-storage
           persistentVolumeClaim:
-            claimName: client-pvc
+            claimName: order-pvc

@@ -122,10 +122,10 @@ Skaffold is a command-line tool that automates the workflow for building, deploy
     .\start.sh
 - To deploy specific pod:
     ```bash
-    .\start.sh "restaurateur"
-- To deploy multiple pods:
+    .\start.sh restaurateur
+- To deploy client & order:
     ```bash
-    .\start.sh "restaurateur,livreur"
+    .\start.sh client-order
 
 ---
 
