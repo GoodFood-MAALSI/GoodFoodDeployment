@@ -13,6 +13,7 @@ portForward:
     namespace: traefik
     port: 80
     localPort: 8080
+    address: 0.0.0.0
 profiles:
   # Profil pour créer les namespaces
   - name: namespace
@@ -65,8 +66,8 @@ profiles:
     manifests:
       kustomize:
         paths:
-          - ./Traefik/resources
           - ./Pod-restaurateur
+          - ./Traefik/resources
 
   # Profil pour l'application client
   - name: client
@@ -89,8 +90,8 @@ profiles:
     manifests:
       kustomize:
         paths:
-          - ./Traefik/resources
           - ./Pod-client
+          - ./Traefik/resources
 
   # Profil pour l'application order
   - name: order
@@ -113,8 +114,8 @@ profiles:
     manifests:
       kustomize:
         paths:
-          - ./Traefik/resources
           - ./Pod-order
+          - ./Traefik/resources
 
   # Profil pour l'application client et order
   - name: client-order
@@ -151,9 +152,9 @@ profiles:
     manifests:
       kustomize:
         paths:
-          - ./Traefik/resources
           - ./Pod-client
           - ./Pod-order
+          - ./Traefik/resources
 
   # Profil "all" pour tout déployer (infrastructure + apps)
   - name: all
@@ -205,7 +206,7 @@ profiles:
       kustomize:
         paths:
           - ./Kafka/resources
-          - ./Traefik/resources
           - ./Pod-restaurateur
           - ./Pod-client
           - ./Pod-order
+          - ./Traefik/resources

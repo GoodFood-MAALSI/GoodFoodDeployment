@@ -4,5 +4,4 @@ namespace: kafka
 resources:
   - strimzi-cluster.yaml
   - kafka-cluster.yaml
-  - kafka-ui-deployment.yaml
   - topics/kafka-topic-orders.yaml

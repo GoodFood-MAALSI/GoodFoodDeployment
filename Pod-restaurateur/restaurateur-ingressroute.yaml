@@ -8,7 +8,7 @@ spec:
     - web
   routes:
     # Route pour l'API (/restaurateur/api/...)
-    - match: Host(`localhost`) && PathPrefix(`/restaurateur/api`)
+    - match: PathPrefix(`/restaurateur/api`)
       kind: Rule
       priority: 12
       services:

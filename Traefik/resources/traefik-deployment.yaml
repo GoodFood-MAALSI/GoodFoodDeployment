@@ -22,6 +22,7 @@ spec:
             - "--api.dashboard=true"
             - "--providers.kubernetescrd"
             - "--providers.kubernetescrd.allowCrossNamespace=true"
+            - "--providers.kubernetescrd.throttleDuration=500ms"
             - "--entrypoints.web.address=:80"
             - "--entrypoints.traefik.address=:8080"
             - "--serverstransport.insecureskipverify=true"
