@@ -13,11 +13,6 @@ portForward:
     namespace: traefik
     port: 80
     localPort: 8080
-  - resourceType: service
-    resourceName: kafka-ui-service
-    namespace: kafka
-    port: 8080
-    localPort: 8081
 profiles:
   # Profil pour créer les namespaces
   - name: namespace
@@ -25,7 +20,7 @@ profiles:
       kustomize:
         paths:
           - ./Kafka/namespace
-          - ./Traefik/namespace  # Ajout du namespace Traefik
+          - ./Traefik/namespace
 
   # Profil pour les CRDs et RBAC (Kafka et Traefik)
   - name: crds
@@ -41,6 +36,13 @@ profiles:
       kustomize:
         paths:
           - ./Kafka/resources
+
+  # Profil pour déployer uniquement Traefik
+  - name: traefik
+    manifests:
+      kustomize:
+        paths:
+          - ./Traefik/resources
 
   # Profil pour l'application restaurateur
   - name: restaurateur
@@ -60,28 +62,10 @@ profiles:
                 dest: .
           docker:
             target: dev
-        - image: goodfoodwebrestaurateur
-          context: ../GoodFoodWebRestaurateur
-          sync:
-            manual:
-              - src: "app/**/*.{js,ts,jsx,tsx}"
-                dest: .
-              - src: "public/**/*"
-                dest: .
-              - src: "package.json"
-                dest: .
-              - src: "next.config.{js,mjs}"
-                dest: .
-              - src: "tsconfig.json"
-                dest: .
-              - src: "*.{json,js,ts}"
-                dest: .
-          docker:
-            target: dev
     manifests:
       kustomize:
         paths:
-          - ./Traefik/resources  # Traefik est requis pour l'accès réseau
+          - ./Traefik/resources
           - ./Pod-restaurateur
 
   # Profil pour l'application client
@@ -105,7 +89,7 @@ profiles:
     manifests:
       kustomize:
         paths:
-          - ./Traefik/resources  # Traefik est requis pour l'accès réseau
+          - ./Traefik/resources
           - ./Pod-client
 
   # Profil pour l'application order
@@ -129,7 +113,7 @@ profiles:
     manifests:
       kustomize:
         paths:
-          - ./Traefik/resources  # Traefik est requis pour l'accès réseau
+          - ./Traefik/resources
           - ./Pod-order
 
   # Profil pour l'application client et order
@@ -167,7 +151,7 @@ profiles:
     manifests:
       kustomize:
         paths:
-          - ./Traefik/resources  # Traefik est requis pour l'accès réseau
+          - ./Traefik/resources
           - ./Pod-client
           - ./Pod-order
 
@@ -182,24 +166,6 @@ profiles:
               - src: "src/**/*.{js,ts}"
                 dest: .
               - src: "package.json"
-                dest: .
-              - src: "tsconfig.json"
-                dest: .
-              - src: "*.{json,js,ts}"
-                dest: .
-          docker:
-            target: dev
-        - image: goodfoodwebrestaurateur
-          context: ../GoodFoodWebRestaurateur
-          sync:
-            manual:
-              - src: "app/**/*.{js,ts,jsx,tsx}"
-                dest: .
-              - src: "public/**/*"
-                dest: .
-              - src: "package.json"
-                dest: .
-              - src: "next.config.{js,mjs}"
                 dest: .
               - src: "tsconfig.json"
                 dest: .

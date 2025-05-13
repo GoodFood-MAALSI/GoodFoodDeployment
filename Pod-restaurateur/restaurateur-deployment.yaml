@@ -100,26 +100,6 @@ spec:
               cpu: "500m"
               memory: "512Mi"
 
-        - name: restaurateur-web-container
-          image: goodfoodwebrestaurateur
-          imagePullPolicy: IfNotPresent
-          ports:
-            - containerPort: 4002
-          env:
-            - name: NODE_ENV
-              value: "development"
-            - name: NEXT_PUBLIC_API_URL
-              value: "http://localhost:8080/restaurateur/api"
-            - name: NEXT_PUBLIC_BASE_PATH
-              value: "/restaurateur"
-          resources:
-            requests:
-              cpu: "200m"
-              memory: "512Mi"
-            limits:
-              cpu: "1000m"
-              memory: "1024Mi"
-
       volumes:
         - name: restaurateur-storage
           persistentVolumeClaim:
