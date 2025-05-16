@@ -110,9 +110,9 @@ Skaffold is a command-line tool that automates the workflow for building, deploy
 - To deploy specific pod:
     ```bash
     .\start.cmd restaurateur
-- To deploy multiple pods:
+- To deploy client & order:
     ```bash
-    .\start.cmd restaurateur livreur
+    .\start.cmd client-order
 
 - **Linux**:
     ```bash
@@ -129,25 +129,55 @@ Skaffold is a command-line tool that automates the workflow for building, deploy
 
 ---
 
+### 5. Port forward db
+
+- **Windows**:
+    ```bash
+    cd /GoodFood/subrepos/GoodFoodDeployment
+- To port forward database:
+    ```bash
+    .\forward-db.cmd client
+- To port forward multiple databases :
+    ```bash
+    .\forward-db.cmd client order
+
+- **Linux**:
+    ```bash
+    cd /GoodFood/subrepos/GoodFoodDeployment
+- To port forward database:
+    ```bash
+    .\forward-db.sh client
+- To port forward multiple databases :
+    ```bash
+    .\forward-db.sh client order
+
+---
+
 ### 5. Access the Application
 
 Once the application is running, you can access the following endpoints in your browser:
 
+**Dev**:
 - [http://localhost:8080/dashboard/](http://localhost:8080/dashboard/)
-- [http://localhost:8080/restaurateur/](http://localhost:8080/restaurateur/)
 - [http://localhost:8080/restaurateur/api](http://localhost:8080/restaurateur/api)
 - [http://localhost:8080/restaurateur/api/swagger](http://localhost:8080/restaurateur/api/swagger)
+
+- You need to start in dev each frontend needed with :
+
+    ```bash
+    cd /GoodFood/subrepos/GoodFoodWebRestaurateur
+    npm start dev
+And access :
+- [http://localhost:4002/](http://localhost:4002/)
+
+**Prod N/A**:
+- [http://localhost:8080/dashboard/](http://localhost:8080/dashboard/)
+- [http://localhost:8080/restaurateur/api](http://localhost:8080/restaurateur/api)
+- [http://localhost:8080/restaurateur/api/swagger](http://localhost:8080/restaurateur/api/swagger)
+- [http://localhost:8080/restaurateur/](http://localhost:8080/restaurateur/)
 
 ---
 
 ### 6. Stop Cluster Minikube
 
-- **Windows**:
-    ```bash
-    cd /GoodFood/subrepos/GoodFoodDeployment
-    .\stop.cmd
-
-- **Linux**:
-    ```bash
-    cd /GoodFood/subrepos/GoodFoodDeployment
-    .\stop.sh
+  Ctrl + c in the terminal
