@@ -43,7 +43,7 @@ spec:
             - name: APP_PORT
               value: "3002"
             - name: FRONTEND_DOMAIN
-              value: "http://localhost:8080/restaurateur/"
+              value: "http://localhost:4002"
             - name: BACKEND_DOMAIN
               value: "http://localhost:8080/restaurateur/api"
             - name: DATABASE_TYPE

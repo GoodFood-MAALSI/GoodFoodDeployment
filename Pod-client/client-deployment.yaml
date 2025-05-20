@@ -42,8 +42,8 @@ spec:
               value: "development"
             - name: APP_PORT
               value: "3001"
-            - name: FRONTEND_DOMAIN
-              value: "goodfoodclient://"
+            # - name: FRONTEND_DOMAIN
+            #   value: "goodfoodclient://"
             - name: BACKEND_DOMAIN
               value: "http://localhost:8080/client/api"
             - name: DATABASE_TYPE
