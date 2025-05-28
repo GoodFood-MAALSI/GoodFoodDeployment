@@ -127,6 +127,19 @@ Skaffold is a command-line tool that automates the workflow for building, deploy
     ```bash
     .\start.sh client-order
 
+| Microservices     | Commande Windows                           | Commande Linux                             |
+|-------------------|---------------------------------------------|--------------------------------------------|
+| All      | `.\start.cmd`           | `.\start.sh`           |
+| Pod client      | `.\start.cmd client`           | `.\start.sh client`           |
+| Pod restaurateur   | `.\start.cmd restaurateur`        | `.\start.sh restaurateur`        |
+| Pod commande      | `.\start.cmd order`           | `.\start.sh order`          |
+| Pod client & order       | `.\start.cmd client-order`                    | `.\start.sh client-order`                    |
+| Pod client & restaurateur     | `.\start.cmd client-restaurateur`                              | `.\start.sh client-restaurateur`                             |
+| Pod client & restaurateur & order    | `.\start.cmd client-restaurateur-order`                              | `.\start.sh client-restaurateur-order`                             |
+
+PS : Pour mon groupe, si vous avez besoin de profils spécifiques, envoyez moi un message directement.
+
+
 ---
 
 ### 5. Port forward db

@@ -155,6 +155,99 @@ profiles:
           - ./Pod-client
           - ./Pod-order
           - ./Traefik/resources
+  
+  # Profil pour l'application client et restaurateur
+  - name: client-restaurateur
+    build:
+      artifacts:
+        - image: goodfoodclient
+          context: ../GoodFoodClient
+          sync:
+            manual:
+              - src: "src/**/*.{js,ts}"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
+        - image: goodfoodrestaurateur
+          context: ../GoodFoodRestaurateur
+          sync:
+            manual:
+              - src: "src/**/*.{js,ts}"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
+    manifests:
+      kustomize:
+        paths:
+          - ./Pod-client
+          - ./Pod-restaurateur
+          - ./Traefik/resources
+  
+  # Profil pour l'application client, restaurateur et order
+  - name: client-restaurateur-order
+    build:
+      artifacts:
+        - image: goodfoodclient
+          context: ../GoodFoodClient
+          sync:
+            manual:
+              - src: "src/**/*.{js,ts}"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
+        - image: goodfoodrestaurateur
+          context: ../GoodFoodRestaurateur
+          sync:
+            manual:
+              - src: "src/**/*.{js,ts}"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
+        - image: goodfoodorder
+          context: ../GoodFoodOrder
+          sync:
+            manual:
+              - src: "src/**/*.{js,ts}"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
+    manifests:
+      kustomize:
+        paths:
+          - ./Pod-client
+          - ./Pod-restaurateur
+          - ./Pod-order
+          - ./Traefik/resources
 
   # Profil "all" pour tout déployer (infrastructure + apps)
   - name: all
