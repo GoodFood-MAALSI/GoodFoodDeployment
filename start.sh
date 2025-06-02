@@ -84,6 +84,21 @@ else
     echo "Kafka is already running, skipping Kafka deployment."
 fi
 
+# Vérifie si le pod Access Service est déjà en cours d'exécution
+echo "Checking if Access Service is running..."
+STATUS=$(kubectl get pod -l app=access-service -o jsonpath="{.items[0].status.phase}" 2>/dev/null)
+
+if [ "$STATUS" != "Running" ]; then
+  echo "Deploying Access Service with Skaffold..."
+  skaffold run -p access-service
+  if [ $? -ne 0 ]; then
+    echo "Failed to deploy Access Service. Please check the errors above and fix them before continuing."
+    exit 1
+  fi
+else
+  echo "Access Service is already running, skipping deployment."
+fi
+
 # Build list of profiles from arguments
 PROFILES=""
 for arg in "$@"; do

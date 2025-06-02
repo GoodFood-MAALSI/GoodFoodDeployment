@@ -43,6 +43,19 @@ profiles:
       kustomize:
         paths:
           - ./Traefik/resources
+  # Profil pour déployer uniquement Access Service
+  - name: access-service
+    build:
+      artifacts:
+        - image: access-service
+          context: ../GoodFoodAccess
+          docker:
+            target: dev
+    manifests:
+      kustomize:
+        paths:
+          - ./Pod-access
+
   # Profil pour l'application restaurateur
   - name: restaurateur
     build:
@@ -141,24 +154,9 @@ profiles:
                 dest: .
           docker:
             target: dev
-        - image: access-service
-          context: ../GoodFoodAccess
-          sync:
-            manual:
-              - src: "src/**/*.{js,ts}"
-                dest: .
-              - src: "package.json"
-                dest: .
-              - src: "tsconfig.json"
-                dest: .
-              - src: "*.{json,js,ts}"
-                dest: .
-          docker:
-            target: dev
     manifests:
       kustomize:
         paths:
-          - ./Pod-access
           - ./Pod-client
           - ./Pod-order
   # Profil pour client et restaurateur

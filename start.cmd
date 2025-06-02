@@ -94,6 +94,21 @@ if errorlevel 1 (
     echo Kafka is already running, skipping Kafka deployment.
 )
 
+REM Check if Access Service is already deployed
+echo Checking if Access Service is running...
+kubectl get pod -l app=access-service -o jsonpath="{.items[0].status.phase}" 2>nul | findstr "Running" >nul
+if errorlevel 1 (
+    echo Deploying Access Service with Skaffold...
+    skaffold run -p access-service
+    if errorlevel 1 (
+        echo Failed to deploy Access Service. Please check the errors above and fix them before continuing.
+        exit /b 1
+    )
+) else (
+    echo Access Service is already running, skipping deployment.
+)
+
+
 REM Build list of profiles from arguments
 set "PROFILES="
 :loop_args
