@@ -90,6 +90,8 @@ spec:
               value: "1080"
             - name: KAFKAJS_NO_PARTITIONER_WARNING
               value: "1"
+            - name: CLIENT_SECRET
+              value: "3v8g7h6J9LkM0pQ2XrTzWmYbNcDfGqRt"
           resources:
             requests:
               cpu: "100m"

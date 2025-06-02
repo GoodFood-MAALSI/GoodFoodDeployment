@@ -1,0 +1,9 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: access
+resources:
+  - access-namespace.yaml
+  - access-deployment.yaml
+  - jwt-secrets.yaml
+  - access-middleware.yaml
+  - access-ingressroutes.yaml
