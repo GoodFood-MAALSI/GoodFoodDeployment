@@ -17,6 +17,13 @@ spec:
         - name: order-db-container
           image: postgres:15
           imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "512Mi"
+              cpu: "500m"
+            limits:
+              memory: "1Gi"
+              cpu: "1"
           ports:
             - containerPort: 5437
           env:
@@ -94,11 +101,11 @@ spec:
               value: "3v8g7h6J9LkM0pQ2XrTzWmYbNcDfGqRt"
           resources:
             requests:
-              cpu: "100m"
-              memory: "256Mi"
-            limits:
-              cpu: "500m"
+              cpu: "200m"
               memory: "512Mi"
+            limits:
+              cpu: "1"
+              memory: "1Gi" 
       volumes:
         - name: order-storage
           persistentVolumeClaim:
