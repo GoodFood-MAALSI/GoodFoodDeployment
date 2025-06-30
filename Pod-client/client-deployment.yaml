@@ -101,13 +101,15 @@ spec:
               value: "1"
             - name: CLIENT_SECRET
               value: "3v8g7h6J9LkM0pQ2XrTzWmYbNcDfGqRt"
+            - name: RUN_SEEDERS
+              value: "true"
           resources:
             requests:
               cpu: "100m"
               memory: "256Mi"
             limits:
-              cpu: "500m"
-              memory: "512Mi" 
+              cpu: "1000m"
+              memory: "1024Mi"
       volumes:
         - name: client-storage
           persistentVolumeClaim:

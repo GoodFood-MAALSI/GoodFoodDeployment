@@ -22,7 +22,7 @@ profiles:
     manifests:
       kustomize:
         paths:
-          - ./Kafka/namespace
+          # - ./Kafka/namespace
           - ./Traefik/namespace
   # Profil pour les CRDs et RBAC (Kafka et Traefik)
   - name: crds
@@ -30,13 +30,13 @@ profiles:
       kustomize:
         paths:
           - ./Traefik/crds
-          - ./Kafka/crds
+          # - ./Kafka/crds
   # Profil pour déployer uniquement Kafka
-  - name: kafka
-    manifests:
-      kustomize:
-        paths:
-          - ./Kafka/resources
+  # - name: kafka
+  #   manifests:
+  #     kustomize:
+  #       paths:
+  #         - ./Kafka/resources
   # Profil pour déployer uniquement Traefik
   - name: traefik
     manifests:
