@@ -1,0 +1,120 @@
+# Route publique pour client-service
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: client-public
+  namespace: client
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: PathPrefix(`/client/api`)
+      kind: Rule
+      priority: 12
+      services:
+        - name: client-service
+          namespace: client
+          port: 3001
+      middlewares:
+        - name: strip-client-api-prefix
+          namespace: client
+---
+# Route publique pour order-service
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: order-public
+  namespace: order
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: PathPrefix(`/order/api`)
+      kind: Rule
+      priority: 12
+      services:
+        - name: order-service
+          namespace: order
+          port: 3005
+      middlewares:
+        - name: strip-order-api-prefix
+          namespace: order
+---
+# Route inter-service pour client-service avec middleware
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: client-verify
+  namespace: client
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: PathPrefix(`/client/api/users/verify`)
+      kind: Rule
+      priority: 12
+      services:
+        - name: client-service
+          namespace: client
+          port: 3001
+      middlewares:
+        - name: strip-client-api-prefix
+          namespace: client
+        - name: auth-middleware
+          namespace: auth
+---
+# Route inter-service pour restaurateur-service avec middleware
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: restaurateur-api
+  namespace: restaurateur
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: PathPrefix(`/restaurateur/api/restaurant`)
+      kind: Rule
+      priority: 12
+      services:
+        - name: restaurateur-service
+          namespace: restaurateur
+          port: 3002
+      middlewares:
+        - name: strip-restaurateur-api-prefix
+          namespace: restaurateur
+        - name: auth-middleware
+          namespace: auth
+---
+# Middleware pour retirer le préfixe /client/api
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-client-api-prefix
+  namespace: client
+spec:
+  stripPrefix:
+    prefixes:
+      - /client/api
+---
+# Middleware pour retirer le préfixe /order/api
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-order-api-prefix
+  namespace: order
+spec:
+  stripPrefix:
+    prefixes:
+      - /order/api
+---
+# Middleware pour retirer le préfixe /restaurateur/api
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: strip-restaurateur-api-prefix
+  namespace: restaurateur
+spec:
+  stripPrefix:
+    prefixes:
+      - /restaurateur/api

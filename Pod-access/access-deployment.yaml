@@ -1,0 +1,48 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: access-service
+  namespace: access
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: access-service
+  template:
+    metadata:
+      labels:
+        app: access-service
+    spec:
+      containers:
+        - name: access-service
+          image: access-service:latest
+          ports:
+            - containerPort: 3000
+          env:
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secrets
+                  key: client_secret
+            - name: RESTAURATEUR_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secrets
+                  key: restaurateur_secret
+            - name: LIVREUR_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secrets
+                  key: livreur_secret
+            - name: ADMIN_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secrets
+                  key: admin_secret
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1024Mi" 

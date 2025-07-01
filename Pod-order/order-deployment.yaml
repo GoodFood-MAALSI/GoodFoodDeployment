@@ -17,6 +17,13 @@ spec:
         - name: order-db-container
           image: postgres:15
           imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
           ports:
             - containerPort: 5437
           env:
@@ -90,13 +97,17 @@ spec:
               value: "1080"
             - name: KAFKAJS_NO_PARTITIONER_WARNING
               value: "1"
+            - name: CLIENT_SECRET
+              value: "3v8g7h6J9LkM0pQ2XrTzWmYbNcDfGqRt"
+            - name: RUN_SEEDERS
+              value: "true"
           resources:
             requests:
               cpu: "100m"
               memory: "256Mi"
             limits:
-              cpu: "500m"
-              memory: "512Mi"
+              cpu: "1000m"
+              memory: "1024Mi" 
       volumes:
         - name: order-storage
           persistentVolumeClaim:

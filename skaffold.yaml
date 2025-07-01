@@ -5,6 +5,8 @@ metadata:
 build:
   local:
     push: false
+  tagPolicy:
+    sha256: {}
 deploy:
   kubectl: {}
 portForward:
@@ -20,30 +22,39 @@ profiles:
     manifests:
       kustomize:
         paths:
-          - ./Kafka/namespace
+          # - ./Kafka/namespace
           - ./Traefik/namespace
-
   # Profil pour les CRDs et RBAC (Kafka et Traefik)
   - name: crds
     manifests:
       kustomize:
         paths:
           - ./Traefik/crds
-          - ./Kafka/crds
-
-  # Profil pour déployer uniquement Kafka et ses dépendances
-  - name: kafka
-    manifests:
-      kustomize:
-        paths:
-          - ./Kafka/resources
-
+          # - ./Kafka/crds
+  # Profil pour déployer uniquement Kafka
+  # - name: kafka
+  #   manifests:
+  #     kustomize:
+  #       paths:
+  #         - ./Kafka/resources
   # Profil pour déployer uniquement Traefik
   - name: traefik
     manifests:
       kustomize:
         paths:
           - ./Traefik/resources
+  # Profil pour déployer uniquement Access Service
+  - name: access-service
+    build:
+      artifacts:
+        - image: access-service
+          context: ../GoodFoodAccess
+          docker:
+            target: dev
+    manifests:
+      kustomize:
+        paths:
+          - ./Pod-access
 
   # Profil pour l'application restaurateur
   - name: restaurateur
@@ -67,8 +78,6 @@ profiles:
       kustomize:
         paths:
           - ./Pod-restaurateur
-          - ./Traefik/resources
-
   # Profil pour l'application client
   - name: client
     build:
@@ -91,8 +100,6 @@ profiles:
       kustomize:
         paths:
           - ./Pod-client
-          - ./Traefik/resources
-
   # Profil pour l'application order
   - name: order
     build:
@@ -115,9 +122,7 @@ profiles:
       kustomize:
         paths:
           - ./Pod-order
-          - ./Traefik/resources
-
-  # Profil pour l'application client et order
+  # Profil pour client et order
   - name: client-order
     build:
       artifacts:
@@ -154,9 +159,7 @@ profiles:
         paths:
           - ./Pod-client
           - ./Pod-order
-          - ./Traefik/resources
-  
-  # Profil pour l'application client et restaurateur
+  # Profil pour client et restaurateur
   - name: client-restaurateur
     build:
       artifacts:
@@ -193,9 +196,7 @@ profiles:
         paths:
           - ./Pod-client
           - ./Pod-restaurateur
-          - ./Traefik/resources
-  
-  # Profil pour l'application client, restaurateur et order
+  # Profil pour client, restaurateur et order
   - name: client-restaurateur-order
     build:
       artifacts:
@@ -247,9 +248,7 @@ profiles:
           - ./Pod-client
           - ./Pod-restaurateur
           - ./Pod-order
-          - ./Traefik/resources
-
-  # Profil "all" pour tout déployer (infrastructure + apps)
+  # Profil pour tout déployer
   - name: all
     build:
       artifacts:
@@ -298,8 +297,6 @@ profiles:
     manifests:
       kustomize:
         paths:
-          - ./Kafka/resources
           - ./Pod-restaurateur
           - ./Pod-client
           - ./Pod-order
-          - ./Traefik/resources
