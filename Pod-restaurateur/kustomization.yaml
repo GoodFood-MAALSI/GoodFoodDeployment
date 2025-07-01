@@ -7,4 +7,6 @@ resources:
   - restaurateur-pvc.yaml
   - restaurateur-deployment.yaml 
   - restaurateur-service.yaml
+  - restaurateur-uploads-pv.yaml
+  - restaurateur-uploads-pvc.yaml
   - restaurateur-ingressroute.yaml

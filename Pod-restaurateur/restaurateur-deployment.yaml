@@ -92,6 +92,9 @@ spec:
               value: "1080"
             - name: KAFKAJS_NO_PARTITIONER_WARNING
               value: "1"
+          volumeMounts:
+            - mountPath: /app/uploads
+              name: uploads-storage
           resources:
             requests:
               cpu: "100m"
@@ -104,3 +107,8 @@ spec:
         - name: restaurateur-storage
           persistentVolumeClaim:
             claimName: restaurateur-pvc
+        - name: uploads-storage
+          persistentVolumeClaim:
+            claimName: restaurateur-uploads-pvc
+
+
