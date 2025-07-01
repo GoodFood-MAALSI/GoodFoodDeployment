@@ -18,6 +18,14 @@ spec:
       middlewares:
         - name: strip-restaurateur-api-prefix
           namespace: restaurateur
+
+    - match: PathPrefix(`/restaurateur/api/uploads`) 
+      kind: Rule
+      services:
+        - name: restaurateur-service
+          port: 3002 
+      middlewares:
+        - name: strip-restaurateur-api-prefix
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware

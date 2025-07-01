@@ -104,7 +104,7 @@ spec:
             - name: RUN_SEEDERS
               value: "true"
           volumeMounts:
-            - mountPath: /app/uploads
+            - mountPath: src/uploads
               name: uploads-storage
           resources:
             requests:
