@@ -122,6 +122,28 @@ profiles:
       kustomize:
         paths:
           - ./Pod-order
+  # Profil pour l'application administrateur
+  - name: administrateur
+    build:
+      artifacts:
+        - image: goodfoodadministrateur
+          context: ../GoodFoodAdmin
+          sync:
+            manual:
+              - src: "src/**/*.{js,ts}"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
+    manifests:
+      kustomize:
+        paths:
+          - ./Pod-administrateur
   # Profil pour client et order
   - name: client-order
     build:
@@ -252,6 +274,7 @@ profiles:
   - name: all
     build:
       artifacts:
+        # Restaurateur
         - image: goodfoodrestaurateur
           context: ../GoodFoodRestaurateur
           sync:
@@ -266,6 +289,7 @@ profiles:
                 dest: .
           docker:
             target: dev
+        # Client
         - image: goodfoodclient
           context: ../GoodFoodClient
           sync:
@@ -280,8 +304,24 @@ profiles:
                 dest: .
           docker:
             target: dev
+        # Order
         - image: goodfoodorder
           context: ../GoodFoodOrder
+          sync:
+            manual:
+              - src: "src/**/*.{js,ts}"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
+        # Administrateur
+        - image: goodfoodadministrateur
+          context: ../GoodFoodAdmin
           sync:
             manual:
               - src: "src/**/*.{js,ts}"
@@ -300,3 +340,4 @@ profiles:
           - ./Pod-restaurateur
           - ./Pod-client
           - ./Pod-order
+          - ./Pod-administrateur

@@ -1,0 +1,117 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-administrateur
+  namespace: administrateur
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod-administrateur
+  template:
+    metadata:
+      labels:
+        app: pod-administrateur
+    spec:
+      containers:
+        - name: administrateur-db-container
+          image: postgres:15
+          imagePullPolicy: Always
+          resources:
+            requests:
+              memory: "256Mi"
+              cpu: "250m"
+            limits:
+              memory: "512Mi"
+              cpu: "500m"
+          ports:
+            - containerPort: 5436
+          env:
+            - name: POSTGRES_USER
+              value: "user"
+            - name: POSTGRES_PASSWORD
+              value: "T9yOP)[DVyBvl6_J2w"
+            - name: POSTGRES_DB
+              value: "goodfood_administrateur"
+            - name: PGPORT
+              value: "5436"
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: administrateur-storage
+
+        - name: administrateur-api-container
+          image: goodfoodadministrateur
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3004
+          env:
+            - name: NODE_ENV
+              value: "development"
+            - name: APP_PORT
+              value: "3004"
+            - name: FRONTEND_DOMAIN
+              value: "http://localhost:4002"
+            - name: BACKEND_DOMAIN
+              value: "http://localhost:8080/administrateur/api"
+            - name: DATABASE_TYPE
+              value: "postgres"
+            - name: DATABASE_HOST
+              value: "127.0.0.1"
+            - name: DATABASE_PORT
+              value: "5436"
+            - name: DATABASE_USERNAME
+              value: "user"
+            - name: DATABASE_PASSWORD
+              value: "T9yOP)[DVyBvl6_J2w"
+            - name: DATABASE_NAME
+              value: "goodfood_administrateur"
+            - name: DATABASE_SYNCHRONIZE
+              value: "true"
+            - name: DATABASE_URL
+              value: "postgres://user:T9yOP)[DVyBvl6_J2w@127.0.0.1:5436/goodfood_administrateur"
+            - name: AUTH_JWT_SECRET
+              value: "3v8g7h6J9LkM0pQ2XrTzWmYbNcDfGqRt"
+            - name: AUTH_JWT_TOKEN_EXPIRES_IN
+              value: "1h"
+            - name: AUTH_REFRESH_SECRET
+              value: "A9B8C7D6E5F4G3H2I1J0KLMNOPQRSTU"
+            - name: AUTH_REFRESH_TOKEN_EXPIRES_IN
+              value: "10h"
+            - name: MAILER_HOST
+              value: "smtp.gmail.com"
+            - name: MAILER_PORT
+              value: "587"
+            - name: MAILER_USER
+              value: "goodfood.maalsi@gmail.com"
+            - name: MAILER_PASSWORD
+              value: "rwpe gfjy gwmj btyt"
+            - name: MAILER_IGNORE_TLS
+              value: "false"
+            - name: MAILER_SECURE
+              value: "false"
+            - name: MAILER_REQUIRE_TLS
+              value: "true"
+            - name: MAILER_DEFAULT_EMAIL
+              value: "goodfood.maalsi@gmail.com"
+            - name: MAILER_DEFAULT_NAME
+              value: "Goodfood"
+            - name: MAILER_CLIENT_PORT
+              value: "1080"
+            - name: KAFKAJS_NO_PARTITIONER_WARNING
+              value: "1"
+            - name: CLIENT_SECRET
+              value: "3v8g7h6J9LkM0pQ2XrTzWmYbNcDfGqRt"
+            - name: RUN_SEEDERS
+              value: "true"
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "1000m"
+              memory: "1024Mi" 
+
+      volumes:
+        - name: administrateur-storage
+          persistentVolumeClaim:
+            claimName: administrateur-pvc

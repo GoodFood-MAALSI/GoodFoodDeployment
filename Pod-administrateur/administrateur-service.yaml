@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: administrateur-service
+  namespace: administrateur
+spec:
+  selector:
+    app: pod-administrateur
+  ports:
+    - name: db-port
+      protocol: TCP
+      port: 5436
+      targetPort: 5436
+    - name: api-port
+      protocol: TCP
+      port: 3004
+      targetPort: 3004
+  type: ClusterIP  # Traefik gère le routage
