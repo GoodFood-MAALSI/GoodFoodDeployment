@@ -133,6 +133,7 @@ Skaffold is a command-line tool that automates the workflow for building, deploy
 | Pod client      | `.\start.cmd client`           | `.\start.sh client`           |
 | Pod restaurateur   | `.\start.cmd restaurateur`        | `.\start.sh restaurateur`        |
 | Pod commande      | `.\start.cmd order`           | `.\start.sh order`          |
+| Pod administrateur      | `.\start.cmd administrateur`           | `.\start.sh administrateur`          |
 | Pod client & order       | `.\start.cmd client-order`                    | `.\start.sh client-order`                    |
 | Pod client & restaurateur     | `.\start.cmd client-restaurateur`                              | `.\start.sh client-restaurateur`                             |
 | Pod client & restaurateur & order    | `.\start.cmd client-restaurateur-order`                              | `.\start.sh client-restaurateur-order`                             |
