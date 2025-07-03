@@ -78,6 +78,30 @@ profiles:
       kustomize:
         paths:
           - ./Pod-restaurateur
+
+    # profil pour le pod livreur
+  - name: delivery 
+    build:
+      artifacts:
+        - image: goodfooddelivery 
+          context: ../GoodFoodDelivery
+          sync:
+            manual:
+              - src: "src/**/*.{js,ts}"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev 
+    manifests:
+      kustomize:
+        paths:
+          - ./Pod-delivery
+          - ./Traefik/resources
   # Profil pour l'application client
   - name: client
     build:
@@ -320,6 +344,21 @@ profiles:
           docker:
             target: dev
         # Administrateur
+        - image: goodfooddelivery
+          context: ../GoodFoodDelivery
+          sync:
+            manual:
+              - src: "src/**/*.{js,ts}"
+                dest: .
+              - src: "package.json"
+                dest: .
+              - src: "tsconfig.json"
+                dest: .
+              - src: "*.{json,js,ts}"
+                dest: .
+          docker:
+            target: dev
+        # Livreur
         - image: goodfoodadministrateur
           context: ../GoodFoodAdmin
           sync:

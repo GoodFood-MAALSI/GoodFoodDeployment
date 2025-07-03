@@ -1,0 +1,57 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mongo-init-config
+  namespace: delivery
+data:
+  mongo-init.js: |
+    var adminDb = db.getSiblingDB("admin");
+
+    var appUser = "mongouser";
+    var appPwd = "j2.kP-tA+hM_zC@xV=nE"; 
+    try {
+        adminDb.createUser(
+            {
+                user: appUser,
+                pwd: appPwd,
+                roles: [
+                    { role: "readWrite", db: "goodfood_delivery_geolocation" },
+                    { role: "readAnyDatabase", db: "admin" }
+                ]
+            }
+        );
+        print("User '" + appUser + "' created successfully on 'admin' database.");
+    } catch (e) {
+        if (e.code === 51003 || e.codeName === "UserExistsAlready") {
+            print("User '" + appUser + "@admin' already exists. Attempting to update roles.");
+            try {
+                adminDb.updateUser(
+                    appUser,
+                    {
+                        roles: [
+                            { role: "readWrite", db: "goodfood_delivery_geolocation" },
+                            { role: "readAnyDatabase", db: "admin" }
+                        ]
+                    }
+                );
+                print("User '" + appUser + "' roles updated successfully on 'admin' database.");
+            } catch (updateError) {
+                print("Error updating user '" + appUser + "' roles: " + updateError.message);
+            }
+        } else {
+            print("Error creating user '" + appUser + "': " + e.message);
+        }
+    }
+    var targetDb = db.getSiblingDB("goodfood_delivery_geolocation");
+    try {
+        targetDb.createCollection("initial_collection");
+        print("Collection 'initial_collection' created in 'goodfood_delivery_geolocation'.");
+    } catch (e) {
+        if (e.codeName === "NamespaceExists") {
+            print("Collection 'initial_collection' already exists.");
+        } else {
+            print("Error creating 'initial_collection': " + e.message);
+        }
+    }
+
+    print("mongo-init.js script finished.");

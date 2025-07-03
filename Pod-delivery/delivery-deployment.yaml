@@ -1,0 +1,150 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: pod-delivery
+  namespace: delivery
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: pod-delivery
+  template:
+    metadata:
+      labels:
+        app: pod-delivery
+    spec:
+      containers:
+        - name: delivery-db-container
+          image: postgres:15
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 5435
+          env:
+            - name: POSTGRES_USER
+              value: "user"
+            - name: POSTGRES_PASSWORD
+              value: "3NvlIk8172Vc<h`:fd"
+            - name: POSTGRES_DB
+              value: "goodfood_delivery"
+            - name: PGPORT
+              value: "5435"
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: delivery-storage
+
+        - name: delivery-api-container
+          image: goodfooddelivery
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 3003
+          env:
+            - name: NODE_ENV
+              value: "development"
+            - name: APP_PORT
+              value: "3003"
+            - name: BACKEND_DOMAIN
+              value: "http://localhost:8080/delivery/api"
+            - name: DATABASE_TYPE
+              value: "postgres"
+            - name: DATABASE_HOST
+              value: "127.0.0.1"
+            - name: DATABASE_PORT
+              value: "5435"
+            - name: DATABASE_USERNAME
+              value: "user"
+            - name: DATABASE_PASSWORD
+              value: "3NvlIk8172Vc<h`:fd"
+            - name: DATABASE_NAME
+              value: "goodfood_delivery"
+            - name: DATABASE_SYNCHRONIZE
+              value: "true"
+            - name: DATABASE_URL
+              value: "postgres://user:33NvlIk8172Vc<h`:fd@127.0.0.1:5435/goodfood_delivery"
+            - name: MONGODB_URI
+              value: "mongodb://mongouser:j2.kP-tA%2BhM_zC%40xV%3DnE@127.0.0.1:27017/goodfood_delivery_geolocation?authSource=admin"
+            - name: MONGODB_HOST
+              value: "127.0.0.1"
+            - name: MONGODB_PORT
+              value: "27017"
+            - name: MONGODB_USERNAME
+              value: "mongouser"
+            - name: MONGODB_PASSWORD
+              value: "j2.kP-tA+hM_zC@xV=nE"
+            - name: MONGODB_DATABASE
+              value: "goodfood_delivery_geolocation"
+            - name: AUTH_JWT_SECRET
+              value: "3v8g7h6J9LkM0pQ2XrTzWmYbNcDfGqRt"
+            - name: AUTH_JWT_TOKEN_EXPIRES_IN
+              value: "1h"
+            - name: AUTH_REFRESH_SECRET
+              value: "A9B8C7D6E5F4G3H2I1J0KLMNOPQRSTU"
+            - name: AUTH_REFRESH_TOKEN_EXPIRES_IN
+              value: "10h"
+            - name: MAILER_HOST
+              value: "smtp.gmail.com"
+            - name: MAILER_PORT
+              value: "587"
+            - name: MAILER_USER
+              value: "goodfood.maalsi@gmail.com"
+            - name: MAILER_PASSWORD
+              value: "rwpe gfjy gwmj btyt"
+            - name: MAILER_IGNORE_TLS
+              value: "false"
+            - name: MAILER_SECURE
+              value: "false"
+            - name: MAILER_REQUIRE_TLS
+              value: "true"
+            - name: MAILER_DEFAULT_EMAIL
+              value: "goodfood.maalsi@gmail.com"
+            - name: MAILER_DEFAULT_NAME
+              value: "Goodfood"
+            - name: MAILER_DELIVERY_PORT
+              value: "1080"
+            - name: KAFKAJS_NO_PARTITIONER_WARNING
+              value: "1"
+            - name: MONGODB_AUTH_SOURCE 
+              value: "admin"  
+          resources:
+            requests:
+              cpu: "100m"
+              memory: "256Mi"
+            limits:
+              cpu: "500m"
+              memory: "512Mi"
+
+        - name: delivery-mongodb-container 
+          image: mongo:latest
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 27017 
+          env:
+            - name: MONGO_INITDB_ROOT_USERNAME
+              value: "rootadmin"
+            - name: MONGO_INITDB_ROOT_PASSWORD
+              value: "j2.kP-tA+hM_zC@xV=nE" 
+            - name: MONGO_INITDB_DATABASE
+              value: "goodfood_delivery_geolocation" 
+          volumeMounts:
+            - mountPath: /data/db 
+              name: mongo-delivery-storage 
+            - mountPath: /docker-entrypoint-initdb.d/mongo-init.js
+              name: mongo-init-script-volume
+              subPath: mongo-init.js 
+          resources: 
+            requests:
+              cpu: "250m"
+              memory: "1Gi"
+            limits: 
+              cpu: "500m"
+              memory: "2Gi"
+
+      volumes:
+        - name: delivery-storage
+          persistentVolumeClaim:
+            claimName: delivery-pvc 
+        - name: mongo-delivery-storage 
+          persistentVolumeClaim:
+            claimName: mongo-delivery-pvc 
+        - name: mongo-init-script-volume
+          configMap:
+            name: mongo-init-config
