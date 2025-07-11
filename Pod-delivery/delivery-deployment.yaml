@@ -102,6 +102,8 @@ spec:
               value: "1080"
             - name: KAFKAJS_NO_PARTITIONER_WARNING
               value: "1"
+            - name: RUN_SEEDERS
+              value: "true"
             - name: MONGODB_AUTH_SOURCE 
               value: "admin"  
           resources:
@@ -109,8 +111,8 @@ spec:
               cpu: "100m"
               memory: "256Mi"
             limits:
-              cpu: "500m"
-              memory: "512Mi"
+              cpu: "1000m"
+              memory: "1024Mi"
 
         - name: delivery-mongodb-container 
           image: mongo:latest

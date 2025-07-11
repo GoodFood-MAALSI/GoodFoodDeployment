@@ -101,7 +101,6 @@ profiles:
       kustomize:
         paths:
           - ./Pod-delivery
-          - ./Traefik/resources
   # Profil pour l'application client
   - name: client
     build:
@@ -379,4 +378,5 @@ profiles:
           - ./Pod-restaurateur
           - ./Pod-client
           - ./Pod-order
+          - ./Pod-delivery
           - ./Pod-administrateur
