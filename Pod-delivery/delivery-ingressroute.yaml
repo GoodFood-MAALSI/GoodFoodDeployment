@@ -7,8 +7,7 @@ spec:
   entryPoints:
     - web
   routes:
-    # Route pour l'API (/delivery/api/...)
-    - match: Host(`localhost`) && PathPrefix(`/delivery/api`)
+    - match: PathPrefix(`/delivery/api`)
       kind: Rule
       priority: 12
       services:
