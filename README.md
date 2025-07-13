@@ -134,11 +134,10 @@ Skaffold is a command-line tool that automates the workflow for building, deploy
 | Pod restaurateur   | `.\start.cmd restaurateur`        | `.\start.sh restaurateur`        |
 | Pod commande      | `.\start.cmd order`           | `.\start.sh order`          |
 | Pod administrateur      | `.\start.cmd administrateur`           | `.\start.sh administrateur`          |
+| Pod delivery      | `.\start.cmd delivery`           | `.\start.sh delivery`          |
 | Pod client & order       | `.\start.cmd client-order`                    | `.\start.sh client-order`                    |
 | Pod client & restaurateur     | `.\start.cmd client-restaurateur`                              | `.\start.sh client-restaurateur`                             |
 | Pod client & restaurateur & order    | `.\start.cmd client-restaurateur-order`                              | `.\start.sh client-restaurateur-order`                             |
-
-PS : Pour mon groupe, si vous avez besoin de profils spécifiques, envoyez moi un message directement.
 
 
 ---
@@ -164,6 +163,15 @@ PS : Pour mon groupe, si vous avez besoin de profils spécifiques, envoyez moi u
 - To port forward multiple databases :
     ```bash
     .\forward-db.sh client order
+
+| Databases     | Commande Windows                           | Commande Linux                             |
+|-------------------|---------------------------------------------|--------------------------------------------|
+| All      | `.\forward-db.cmd`           | `.\forward-db.sh`           |
+| Client      | `.\forward-db.cmd client`           | `.\forward-db.sh client`           |
+| Restaurateur   | `.\forward-db.cmd restaurateur`        | `.\forward-db.sh restaurateur`        |
+| Order      | `.\forward-db.cmd order`           | `.\forward-db.sh order`          |
+| Administrateur      | `.\forward-db.cmd administrateur`           | `.\forward-db.sh administrateur`          |
+| Delivery      | `.\forward-db.cmd delivery`           | `.\forward-db.sh delivery`          |
 
 ---
 
@@ -195,3 +203,10 @@ And access :
 ### 6. Stop Cluster Minikube
 
   Ctrl + c in the terminal
+
+---
+
+### 7. Reload minikube cluster
+
+    minikube delete
+Resumes at step 4

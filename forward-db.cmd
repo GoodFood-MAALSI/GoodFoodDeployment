@@ -2,7 +2,7 @@
 setlocal enabledelayedexpansion
 
 if "%~1"=="" (
-    echo Usage: %~nx0 [restaurateur] [client] [order] [...]
+    echo Usage: %~nx0 [restaurateur] [client] [order] [administrateur] [delivery] [...]
     exit /b 1
 )
 
@@ -10,6 +10,8 @@ REM Définir les ports spécifiques pour chaque application
 set port_restaurateur=5434
 set port_client=5433
 set port_order=5437
+set port_administrateur=5436
+set port_delivery=5435
 
 REM Boucle sur tous les arguments
 for %%A in (%*) do (
@@ -22,6 +24,8 @@ for %%A in (%*) do (
     if /i "!APP!"=="restaurateur" set "PORT=!port_restaurateur!"
     if /i "!APP!"=="client"       set "PORT=!port_client!"
     if /i "!APP!"=="order"        set "PORT=!port_order!"
+    if /i "!APP!"=="administrateur"        set "PORT=!port_administrateur!"
+    if /i "!APP!"=="delivery"        set "PORT=!port_delivery!"
 
     if "!PORT!"=="" (
         echo [!] Port non défini pour "!APP!" – ignoré.

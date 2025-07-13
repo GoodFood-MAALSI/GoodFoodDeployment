@@ -1,7 +1,7 @@
 #!/bin/bash
 
 if [ $# -eq 0 ]; then
-    echo "Usage: $0 [restaurateur] [client] [order] [...]"
+    echo "Usage: $0 [restaurateur] [client] [order] [administrateur] [delivery] [...]"
     exit 1
 fi
 
@@ -10,6 +10,8 @@ declare -A ports
 ports[restaurateur]=5434
 ports[client]=5433
 ports[order]=5437
+ports[administrateur]=5436
+ports[delivery]=5435
 
 # Parcourir chaque argument
 for APP in "$@"; do
