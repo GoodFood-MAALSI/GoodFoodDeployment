@@ -99,13 +99,20 @@ spec:
               value: "1080"
             - name: KAFKAJS_NO_PARTITIONER_WARNING
               value: "1"
+            - name: RUN_SEEDERS
+              value: "true"
             - name: RESTAURATEUR_SECRET
               valueFrom:
                 secretKeyRef:
                   name: jwt-secrets
                   key: restaurateur_secret
-            - name: RUN_SEEDERS
-              value: "true"
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secrets
+                  key: client_secret
+            - name: CLIENT_SERVICE_URL
+              value: "http://traefik.traefik.svc.cluster.local:80/client/api"
           volumeMounts:
             - mountPath: /uploads
               name: uploads-storage
