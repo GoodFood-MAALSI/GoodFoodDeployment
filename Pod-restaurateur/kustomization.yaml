@@ -5,6 +5,7 @@ resources:
   - restaurateur-namespace.yaml
   - restaurateur-pv.yaml
   - restaurateur-pvc.yaml
+  - restaurateur-secret.yaml
   - restaurateur-deployment.yaml 
   - restaurateur-service.yaml
   - restaurateur-uploads-pv.yaml

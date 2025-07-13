@@ -16,6 +16,7 @@ spec:
       containers:
         - name: access-service
           image: access-service:latest
+          imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 3000
           env:
@@ -29,20 +30,15 @@ spec:
                 secretKeyRef:
                   name: jwt-secrets
                   key: restaurateur_secret
-            - name: LIVREUR_SECRET
+            - name: DELIVERY_SECRET
               valueFrom:
                 secretKeyRef:
                   name: jwt-secrets
-                  key: livreur_secret
-            - name: ADMIN_SECRET
-              valueFrom:
-                secretKeyRef:
-                  name: jwt-secrets
-                  key: admin_secret
+                  key: delivery_secret
           resources:
             requests:
               cpu: "100m"
               memory: "256Mi"
             limits:
               cpu: "1000m"
-              memory: "1024Mi" 
+              memory: "1024Mi"

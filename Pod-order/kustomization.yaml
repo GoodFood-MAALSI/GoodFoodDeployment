@@ -5,6 +5,7 @@ resources:
   - order-namespace.yaml
   - order-pv.yaml
   - order-pvc.yaml
+  - order-secret.yaml
   - order-deployment.yaml 
   - order-service.yaml
   - order-ingressroute.yaml

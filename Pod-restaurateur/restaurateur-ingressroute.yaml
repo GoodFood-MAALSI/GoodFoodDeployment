@@ -1,13 +1,12 @@
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
-  name: restaurateur-ingress
+  name: restaurateur-public
   namespace: restaurateur
 spec:
   entryPoints:
     - web
   routes:
-    # Route pour l'API (/restaurateur/api/...)
     - match: PathPrefix(`/restaurateur/api`)
       kind: Rule
       priority: 12
@@ -18,14 +17,63 @@ spec:
       middlewares:
         - name: strip-restaurateur-api-prefix
           namespace: restaurateur
-
-    - match: PathPrefix(`/restaurateur/api/uploads`) 
+    - match: PathPrefix(`/restaurateur/api/uploads`)
       kind: Rule
       services:
         - name: restaurateur-service
-          port: 3002 
+          namespace: restaurateur
+          port: 3002
       middlewares:
         - name: strip-restaurateur-api-prefix
+          namespace: restaurateur
+
+---
+apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: restaurateur-interservice
+  namespace: restaurateur
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: PathPrefix(`/restaurateur/api/restaurant/interservice`)
+      kind: Rule
+      priority: 13
+      services:
+        - name: restaurateur-service
+          namespace: restaurateur
+          port: 3002
+      middlewares:
+        - name: strip-restaurateur-api-prefix
+          namespace: restaurateur
+        - name: access-middleware
+          namespace: access
+    - match: PathPrefix(`/restaurateur/api/menu-items/interservice`)
+      kind: Rule
+      priority: 13
+      services:
+        - name: restaurateur-service
+          namespace: restaurateur
+          port: 3002
+      middlewares:
+        - name: strip-restaurateur-api-prefix
+          namespace: restaurateur
+        - name: access-middleware
+          namespace: access
+    - match: PathPrefix(`/restaurateur/api/menu-item-option-values/interservice`)
+      kind: Rule
+      priority: 13
+      services:
+        - name: restaurateur-service
+          namespace: restaurateur
+          port: 3002
+      middlewares:
+        - name: strip-restaurateur-api-prefix
+          namespace: restaurateur
+        - name: access-middleware
+          namespace: access
+
 ---
 apiVersion: traefik.io/v1alpha1
 kind: Middleware

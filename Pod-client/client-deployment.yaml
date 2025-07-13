@@ -1,3 +1,4 @@
+# Pod-client/client-deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -38,7 +39,6 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: client-storage
-
         - name: client-api-container
           image: goodfoodclient
           imagePullPolicy: IfNotPresent
@@ -49,8 +49,6 @@ spec:
               value: "development"
             - name: APP_PORT
               value: "3001"
-            # - name: FRONTEND_DOMAIN
-            #   value: "goodfoodclient://"
             - name: BACKEND_DOMAIN
               value: "http://localhost:8080/client/api"
             - name: DATABASE_TYPE
@@ -68,7 +66,7 @@ spec:
             - name: DATABASE_SYNCHRONIZE
               value: "true"
             - name: DATABASE_URL
-              value: "postgres://user:33NvlIk8172Vc<h`:fd@127.0.0.1:5433/goodfood_client"
+              value: "postgres://user:3NvlIk8172Vc<h`:fd@127.0.0.1:5433/goodfood_client"
             - name: AUTH_JWT_SECRET
               value: "3v8g7h6J9LkM0pQ2XrTzWmYbNcDfGqRt"
             - name: AUTH_JWT_TOKEN_EXPIRES_IN
@@ -100,7 +98,10 @@ spec:
             - name: KAFKAJS_NO_PARTITIONER_WARNING
               value: "1"
             - name: CLIENT_SECRET
-              value: "3v8g7h6J9LkM0pQ2XrTzWmYbNcDfGqRt"
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secrets
+                  key: client_secret
             - name: RUN_SEEDERS
               value: "true"
           resources:

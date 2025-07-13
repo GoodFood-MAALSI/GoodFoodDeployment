@@ -3,7 +3,7 @@ kind: Kustomization
 namespace: access
 resources:
   - access-namespace.yaml
-  - access-deployment.yaml
   - jwt-secrets.yaml
+  - access-deployment.yaml
+  - access-service.yaml
   - access-middleware.yaml
-  - access-ingressroutes.yaml

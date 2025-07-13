@@ -1,3 +1,4 @@
+# order/deployment.yaml
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -38,7 +39,6 @@ spec:
           volumeMounts:
             - mountPath: /var/lib/postgresql/data
               name: order-storage
-
         - name: order-api-container
           image: goodfoodorder
           imagePullPolicy: IfNotPresent
@@ -97,17 +97,38 @@ spec:
               value: "1080"
             - name: KAFKAJS_NO_PARTITIONER_WARNING
               value: "1"
-            - name: CLIENT_SECRET
-              value: "3v8g7h6J9LkM0pQ2XrTzWmYbNcDfGqRt"
             - name: RUN_SEEDERS
               value: "true"
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secrets
+                  key: client_secret
+            - name: RESTAURATEUR_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secrets
+                  key: restaurateur_secret
+            - name: DELIVERY_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secrets
+                  key: delivery_secret
+            - name: CLIENT_SERVICE_URL
+              value: "http://traefik.traefik.svc.cluster.local:80/client/api"
+            - name: RESTAURANT_SERVICE_URL
+              value: "http://traefik.traefik.svc.cluster.local:80/restaurateur/api"
+            - name: DELIVERY_SERVICE_URL
+              value: "http://traefik.traefik.svc.cluster.local:80/delivery/api"
+            - name: MENU_ITEM_OPTION_VALUE_URL
+              value: "http://traefik.traefik.svc.cluster.local:80/restaurateur/api"
           resources:
             requests:
               cpu: "100m"
               memory: "256Mi"
             limits:
               cpu: "1000m"
-              memory: "1024Mi" 
+              memory: "1024Mi"
       volumes:
         - name: order-storage
           persistentVolumeClaim:

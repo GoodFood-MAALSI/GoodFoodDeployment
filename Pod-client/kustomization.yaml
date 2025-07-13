@@ -5,6 +5,7 @@ resources:
   - client-namespace.yaml
   - client-pv.yaml
   - client-pvc.yaml
+  - client-secret.yaml
   - client-deployment.yaml 
   - client-service.yaml
   - client-ingressroute.yaml

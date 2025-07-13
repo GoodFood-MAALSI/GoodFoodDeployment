@@ -1,3 +1,4 @@
+# Pod-order/order-ingressroute.yaml
 apiVersion: traefik.io/v1alpha1
 kind: IngressRoute
 metadata:
@@ -7,7 +8,6 @@ spec:
   entryPoints:
     - web
   routes:
-    # Route pour l'API (/order/api/...)
     - match: PathPrefix(`/order/api`)
       kind: Rule
       priority: 12
