@@ -3,6 +3,7 @@ kind: Kustomization
 namespace: delivery
 resources:
   - delivery-namespace.yaml
+  - delivery-secret.yaml
   - delivery-pv.yaml
   - delivery-pvc.yaml
   - delivery-mongo-service.yaml

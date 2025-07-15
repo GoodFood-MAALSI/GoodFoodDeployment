@@ -5,3 +5,4 @@ resources:
   - strimzi-cluster.yaml
   - kafka-cluster.yaml
   - topics/kafka-topic-orders.yaml
+  - kafka-service.yaml

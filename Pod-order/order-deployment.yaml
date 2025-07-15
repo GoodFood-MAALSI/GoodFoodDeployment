@@ -20,11 +20,11 @@ spec:
           imagePullPolicy: Always
           resources:
             requests:
+              cpu: "100m"
               memory: "256Mi"
-              cpu: "250m"
             limits:
+              cpu: "300m"
               memory: "512Mi"
-              cpu: "500m"
           ports:
             - containerPort: 5437
           env:
@@ -122,13 +122,15 @@ spec:
               value: "http://traefik.traefik.svc.cluster.local:80/delivery/api"
             - name: MENU_ITEM_OPTION_VALUE_URL
               value: "http://traefik.traefik.svc.cluster.local:80/restaurateur/api"
+            - name: KAFKA_BROKERS
+              value: "my-kafka-cluster-kafka-bootstrap.kafka:9092"
           resources:
             requests:
-              cpu: "100m"
+              cpu: "150m"
               memory: "256Mi"
             limits:
-              cpu: "1000m"
-              memory: "1024Mi"
+              cpu: "500m"
+              memory: "768Mi"
       volumes:
         - name: order-storage
           persistentVolumeClaim:

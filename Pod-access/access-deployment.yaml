@@ -37,8 +37,8 @@ spec:
                   key: delivery_secret
           resources:
             requests:
-              cpu: "100m"
+              cpu: "150m"
               memory: "256Mi"
             limits:
-              cpu: "1000m"
-              memory: "1024Mi"
+              cpu: "500m"
+              memory: "768Mi"

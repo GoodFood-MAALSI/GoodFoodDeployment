@@ -21,6 +21,29 @@ spec:
 
 ---
 apiVersion: traefik.io/v1alpha1
+kind: IngressRoute
+metadata:
+  name: order-interservice
+  namespace: order
+spec:
+  entryPoints:
+    - web
+  routes:
+    - match: PathPrefix(`/order/api/orders/interservice`)
+      kind: Rule
+      priority: 13
+      services:
+        - name: order-service
+          namespace: order
+          port: 3002
+      middlewares:
+        - name: strip-order-api-prefix
+          namespace: order
+        - name: access-middleware
+          namespace: access
+
+---
+apiVersion: traefik.io/v1alpha1
 kind: Middleware
 metadata:
   name: strip-order-api-prefix

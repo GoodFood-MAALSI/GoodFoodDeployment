@@ -1,59 +1,7 @@
 apiVersion: kafka.strimzi.io/v1beta2
 kind: KafkaTopic
 metadata:
-  name: order-created
-  namespace: kafka
-  labels:
-    strimzi.io/cluster: my-kafka-cluster
-spec:
-  partitions: 1
-  replicas: 1
-  config:
-    retention.ms: 604800000 # 7 jours
----
-apiVersion: kafka.strimzi.io/v1beta2
-kind: KafkaTopic
-metadata:
-  name: auth-validate
-  namespace: kafka
-  labels:
-    strimzi.io/cluster: my-kafka-cluster
-spec:
-  partitions: 1
-  replicas: 1
-  config:
-    retention.ms: 604800000 # 7 jours
----
-apiVersion: kafka.strimzi.io/v1beta2
-kind: KafkaTopic
-metadata:
-  name: auth-validate-reply
-  namespace: kafka
-  labels:
-    strimzi.io/cluster: my-kafka-cluster
-spec:
-  partitions: 1
-  replicas: 1
-  config:
-    retention.ms: 604800000 # 7 jours
----
-apiVersion: kafka.strimzi.io/v1beta2
-kind: KafkaTopic
-metadata:
-  name: restaurant-validate
-  namespace: kafka
-  labels:
-    strimzi.io/cluster: my-kafka-cluster
-spec:
-  partitions: 1
-  replicas: 1
-  config:
-    retention.ms: 604800000 # 7 jours
----
-apiVersion: kafka.strimzi.io/v1beta2
-kind: KafkaTopic
-metadata:
-  name: restaurant-validate-reply
+  name: delivery-created
   namespace: kafka
   labels:
     strimzi.io/cluster: my-kafka-cluster
