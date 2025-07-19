@@ -99,10 +99,28 @@ spec:
               value: "1080"
             - name: KAFKAJS_NO_PARTITIONER_WARNING
               value: "1"
-            - name: CLIENT_SECRET
-              value: "3v8g7h6J9LkM0pQ2XrTzWmYbNcDfGqRt"
             - name: RUN_SEEDERS
               value: "true"
+            - name: RESTAURATEUR_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secrets
+                  key: restaurateur_secret
+            - name: CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secrets
+                  key: client_secret
+            - name: ADMINISTRATEUR_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secrets
+                  key: administrateur_secret
+            - name: DELIVERY_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: jwt-secrets
+                  key: delivery_secret
           resources:
             requests:
               cpu: "150m"

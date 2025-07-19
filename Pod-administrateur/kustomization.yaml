@@ -5,6 +5,7 @@ resources:
   - administrateur-namespace.yaml
   - administrateur-pv.yaml
   - administrateur-pvc.yaml
+  - administrateur-secret.yaml
   - administrateur-deployment.yaml 
   - administrateur-service.yaml
   - administrateur-ingressroute.yaml
