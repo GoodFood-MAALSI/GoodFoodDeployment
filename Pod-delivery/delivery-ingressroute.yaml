@@ -40,6 +40,18 @@ spec:
           namespace: delivery
         - name: access-middleware
           namespace: access
+    - match: PathPrefix(`/delivery/api/deliveries/interservice/order/`)
+      kind: Rule
+      priority: 13
+      services:
+        - name: delivery-service
+          namespace: delivery
+          port: 3001
+      middlewares:
+        - name: strip-delivery-api-prefix
+          namespace: delivery
+        - name: access-middleware
+          namespace: access
 
 ---
 apiVersion: traefik.io/v1alpha1
